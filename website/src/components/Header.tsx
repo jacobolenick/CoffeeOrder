@@ -18,9 +18,9 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <span className="text-sm font-semibold text-zinc-900">$4.99</span>
           <a
-            href="https://github.com/jacobolenick/CoffeeOrder/releases/download/v1.0.0/Coffee.Order-1.0.0-arm64.dmg" download="CoffeeOrder-mac.dmg"
-            
+            href="https://buy.stripe.com/eVq8wOa2X8VR8PB9rG6wE04"
             className="h-8 px-3.5 flex items-center text-sm font-medium rounded-md bg-zinc-800 text-white hover:bg-zinc-700 transition-colors shadow-sm"
           >
             Download
