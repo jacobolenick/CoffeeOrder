@@ -1,0 +1,183 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  font-family: 'Instrument Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── TipTap demo editor ─────────────────────────────────── */
+.demo-editor .ProseMirror {
+  outline: none;
+  min-height: 320px;
+  caret-color: currentColor;
+  padding: 24px 28px;
+}
+
+.demo-editor .ProseMirror h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #18181b;
+  margin: 0 0 8px;
+  line-height: 1.3;
+}
+
+.demo-editor .ProseMirror h2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #18181b;
+  margin: 20px 0 4px;
+}
+
+.demo-editor .ProseMirror h3 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #3f3f46;
+  margin: 16px 0 2px;
+}
+
+.demo-editor .ProseMirror p {
+  font-size: 0.875rem;
+  line-height: 1.75;
+  color: #52525b;
+  margin: 0 0 8px;
+}
+
+.demo-editor .ProseMirror ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+.demo-editor .ProseMirror ol {
+  list-style: decimal;
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+.demo-editor .ProseMirror li {
+  font-size: 0.875rem;
+  color: #52525b;
+  margin-bottom: 2px;
+}
+
+.demo-editor .ProseMirror li > p { margin: 0; }
+
+.demo-editor .ProseMirror ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 0;
+}
+
+.demo-editor .ProseMirror ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.demo-editor .ProseMirror ul[data-type="taskList"] li > label {
+  margin-top: 2px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.demo-editor .ProseMirror ul[data-type="taskList"] li > div {
+  flex: 1;
+  font-size: 0.875rem;
+  color: #52525b;
+}
+
+.demo-editor .ProseMirror ul[data-type="taskList"] li input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  border-radius: 3px;
+  border: 1px solid #d4d4d8;
+  accent-color: #18181b;
+}
+
+.demo-editor .ProseMirror ul[data-type="taskList"] li[data-checked="true"] > div {
+  text-decoration: line-through;
+  color: #a1a1aa;
+}
+
+.demo-editor .ProseMirror blockquote {
+  border-left: 2px solid #e4e4e7;
+  padding-left: 16px;
+  margin: 16px 0;
+}
+
+.demo-editor .ProseMirror blockquote p {
+  font-style: italic;
+  color: #71717a;
+  margin: 0;
+}
+
+.demo-editor .ProseMirror code {
+  background: #f4f4f5;
+  color: #18181b;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-family: 'SF Mono', 'Fira Mono', monospace;
+}
+
+.demo-editor .ProseMirror pre {
+  background: #18181b;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+  overflow-x: auto;
+}
+
+.demo-editor .ProseMirror pre code {
+  background: transparent;
+  color: #e4e4e7;
+  font-size: 0.8rem;
+  padding: 0;
+}
+
+.demo-editor .ProseMirror mark {
+  background: #e4e4e7;
+  color: inherit;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+.demo-editor .ProseMirror hr {
+  border: none;
+  border-top: 1px solid #e4e4e7;
+  margin: 24px 0;
+}
+
+.demo-editor .ProseMirror a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: #18181b;
+  cursor: pointer;
+}
+
+/* Placeholder */
+.demo-editor .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #d4d4d8;
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { border-radius: 9999px; background: #e4e4e7; }

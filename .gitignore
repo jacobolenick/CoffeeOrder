@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+website/node_modules/
+
+# Build outputs
+out/
+dist/
+website/dist/
+
+# DMG / large binaries
+website/public/downloads/*.dmg
+
+# Env & secrets
+.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/

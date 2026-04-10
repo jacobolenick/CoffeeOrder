@@ -1,0 +1,186 @@
+@import 'tippy.js/dist/tippy.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base resets ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  @apply bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100;
+  user-select: none;
+}
+
+.coffee-editor, .coffee-editor * { user-select: text; }
+
+/* ─── TipTap editor ────────────────────────────────────────── */
+.coffee-editor .ProseMirror {
+  outline: none;
+  min-height: 60vh;
+  caret-color: currentColor;
+}
+
+/* Placeholder */
+.coffee-editor .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  @apply text-zinc-300 dark:text-zinc-700;
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
+.coffee-editor .ProseMirror .is-empty::before {
+  content: attr(data-placeholder);
+  @apply text-zinc-300 dark:text-zinc-700;
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
+
+/* Headings */
+.coffee-editor .ProseMirror h1 {
+  @apply text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 mt-8 mb-2;
+  letter-spacing: -0.02em;
+}
+.coffee-editor .ProseMirror h2 {
+  @apply text-lg font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 mt-6 mb-2;
+  letter-spacing: -0.01em;
+}
+.coffee-editor .ProseMirror h3 {
+  @apply text-base font-semibold text-zinc-800 dark:text-zinc-200 mt-4 mb-1;
+}
+
+/* Paragraphs */
+.coffee-editor .ProseMirror p {
+  @apply text-sm leading-7 text-zinc-700 dark:text-zinc-300 mb-2;
+}
+
+/* Blockquote */
+.coffee-editor .ProseMirror blockquote {
+  @apply border-l-2 border-zinc-300 dark:border-zinc-600 pl-4 my-4;
+}
+.coffee-editor .ProseMirror blockquote p {
+  @apply text-sm text-zinc-500 dark:text-zinc-400 italic mb-0;
+}
+
+/* Lists */
+.coffee-editor .ProseMirror ul {
+  @apply list-disc pl-5 space-y-1 mb-3;
+}
+.coffee-editor .ProseMirror ol {
+  @apply list-decimal pl-5 space-y-1 mb-3;
+}
+.coffee-editor .ProseMirror li {
+  @apply text-sm text-zinc-700 dark:text-zinc-300;
+}
+.coffee-editor .ProseMirror li > p { @apply mb-0; }
+
+/* Task list */
+.coffee-editor .ProseMirror ul[data-type="taskList"] {
+  @apply list-none pl-0 space-y-1.5 mb-3;
+}
+.coffee-editor .ProseMirror ul[data-type="taskList"] li {
+  @apply flex items-start gap-2.5;
+}
+.coffee-editor .ProseMirror ul[data-type="taskList"] li > label {
+  @apply mt-[3px] shrink-0 cursor-pointer;
+}
+.coffee-editor .ProseMirror ul[data-type="taskList"] li > div {
+  @apply flex-1 text-sm text-zinc-700 dark:text-zinc-300;
+}
+.coffee-editor .ProseMirror ul[data-type="taskList"] li > div > p { @apply mb-0; }
+.coffee-editor .ProseMirror ul[data-type="taskList"] li input[type="checkbox"] {
+  @apply h-3.5 w-3.5 cursor-pointer rounded-sm border border-zinc-300 dark:border-zinc-600;
+  accent-color: #18181b;
+}
+.coffee-editor .ProseMirror ul[data-type="taskList"] li[data-checked="true"] > div {
+  @apply line-through text-zinc-400 dark:text-zinc-600;
+}
+
+/* Highlight — monochromatic */
+.coffee-editor .ProseMirror mark {
+  background-color: #e4e4e7;
+  color: inherit;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+.dark .coffee-editor .ProseMirror mark {
+  background-color: #3f3f46;
+  color: #fafafa;
+}
+
+/* Links */
+.coffee-editor .ProseMirror a.editor-link {
+  @apply underline underline-offset-2 text-zinc-900 dark:text-zinc-100 decoration-zinc-400 dark:decoration-zinc-500 cursor-pointer;
+}
+.coffee-editor .ProseMirror a.editor-link:hover {
+  @apply decoration-zinc-700 dark:decoration-zinc-300;
+}
+
+/* Images */
+.coffee-editor .ProseMirror img.editor-image {
+  @apply max-w-full rounded-lg my-4;
+}
+
+/* Horizontal rule */
+.coffee-editor .ProseMirror hr {
+  @apply my-6 border-zinc-100 dark:border-zinc-800;
+}
+
+/* Code */
+.coffee-editor .ProseMirror code {
+  @apply rounded bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 text-[11px] font-mono text-zinc-800 dark:text-zinc-200;
+}
+.coffee-editor .ProseMirror pre {
+  @apply rounded-lg bg-zinc-950 dark:bg-zinc-900 p-4 my-4 overflow-x-auto;
+}
+.coffee-editor .ProseMirror pre code {
+  @apply bg-transparent text-zinc-100 p-0 text-xs;
+}
+
+/* Callout — monochromatic */
+.coffee-editor .ProseMirror div[data-type="callout"] {
+  @apply flex gap-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 px-4 py-3 my-4;
+}
+.coffee-editor .ProseMirror div[data-type="callout"] .callout-icon {
+  @apply shrink-0 mt-0.5 text-zinc-400 dark:text-zinc-500;
+}
+.coffee-editor .ProseMirror div[data-type="callout"] .callout-content {
+  @apply flex-1;
+}
+.coffee-editor .ProseMirror div[data-type="callout"] p {
+  @apply mb-0 text-zinc-700 dark:text-zinc-300;
+}
+
+/* ─── Slash menu (tippy reset) ─────────────────────────────── */
+.tippy-box[data-theme~='slash-menu'] {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+.tippy-box[data-theme~='slash-menu'] > .tippy-content {
+  padding: 0;
+}
+
+/* ─── Resizable image wrapper ───────────────────────────────── */
+.coffee-editor .ProseMirror [data-type="resizable-image"] {
+  display: block;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-zinc-200 dark:bg-zinc-800;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-zinc-300 dark:bg-zinc-700;
+}
