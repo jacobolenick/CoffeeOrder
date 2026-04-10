@@ -19,8 +19,8 @@ export default function Header() {
 
         <div className="flex items-center gap-3">
           <a
-            href="/downloads/CoffeeOrder-mac.dmg"
-            download="CoffeeOrder-mac.dmg"
+            href="https://github.com/jacobolenick/CoffeeOrder/releases/download/v1.0.0/Coffee%20Order-1.0.0-arm64.dmg"
+            
             className="h-8 px-3.5 flex items-center text-sm font-medium rounded-md bg-zinc-800 text-white hover:bg-zinc-700 transition-colors shadow-sm"
           >
             Download
