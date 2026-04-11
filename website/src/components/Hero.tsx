@@ -24,6 +24,22 @@ export default function Hero() {
           headings, todos, callouts, and quotes. Ready before you close the tab.
         </p>
 
+        <div className="flex justify-center mb-4">
+          <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-2xl border border-amber-200 bg-amber-50 shadow-sm">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-400 text-white text-[10px] font-bold uppercase tracking-wider">
+              Early Bird
+            </span>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-xl font-bold text-zinc-900">$4.99</span>
+              <span className="text-xs text-zinc-400 line-through">$9.99</span>
+            </div>
+            <div className="w-px h-4 bg-amber-200" />
+            <span className="text-xs text-amber-700 font-medium">
+              Price goes up <span className="font-semibold">April 20th</span>
+            </span>
+          </div>
+        </div>
+
         <div className="flex items-center justify-center gap-3 mb-2">
           <a
             href="https://buy.stripe.com/eVq8wOa2X8VR8PB9rG6wE04"
