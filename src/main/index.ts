@@ -7,6 +7,8 @@ import {
   desktopCapturer,
   nativeTheme,
   dialog,
+  Menu,
+  MenuItem,
 } from 'electron'
 import { join } from 'path'
 import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, unlinkSync, rmSync } from 'fs'
@@ -45,6 +47,7 @@ function createWindow(): BrowserWindow {
       sandbox: false,
       contextIsolation: true,
       nodeIntegration: false,
+      spellcheck: true,
     },
   })
 
@@ -61,6 +64,49 @@ function createWindow(): BrowserWindow {
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
+  })
+
+  // ─── Context menu: spell check + AI fix ──────────────────────
+  mainWindow.webContents.on('context-menu', (_event, params) => {
+    const menu = new Menu()
+
+    // Spell check suggestions
+    for (const suggestion of params.dictionarySuggestions) {
+      menu.append(
+        new MenuItem({
+          label: suggestion,
+          click: () => mainWindow.webContents.replaceMisspelling(suggestion),
+        })
+      )
+    }
+
+    if (params.misspelledWord) {
+      if (params.dictionarySuggestions.length > 0) {
+        menu.append(new MenuItem({ type: 'separator' }))
+      }
+      menu.append(
+        new MenuItem({
+          label: 'Add to Dictionary',
+          click: () =>
+            mainWindow.webContents.session.addWordToSpellCheckerDictionary(params.misspelledWord),
+        })
+      )
+    }
+
+    // AI fix (shown when text is selected)
+    if (params.selectionText.trim().length > 0) {
+      if (menu.items.length > 0) menu.append(new MenuItem({ type: 'separator' }))
+      menu.append(
+        new MenuItem({
+          label: 'Fix with AI',
+          click: () => mainWindow.webContents.send('editor:fixWithAI', params.selectionText),
+        })
+      )
+    }
+
+    if (menu.items.length > 0) {
+      menu.popup({ window: mainWindow })
+    }
   })
 
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {

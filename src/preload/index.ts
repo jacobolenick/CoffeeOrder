@@ -46,6 +46,12 @@ const api = {
     saveText: (filename: string, content: string) => ipcRenderer.invoke('export:saveText', filename, content),
     pdf: (filename: string, html: string) => ipcRenderer.invoke('export:pdf', filename, html),
   },
+  // Editor events from main
+  editor: {
+    onFixWithAI: (callback: (text: string) => void) => {
+      ipcRenderer.on('editor:fixWithAI', (_e, text) => callback(text))
+    },
+  },
 }
 
 if (process.contextIsolated) {

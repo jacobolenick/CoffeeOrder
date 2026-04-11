@@ -22,7 +22,7 @@ export default function DownloadApp() {
 
         {/* Download button */}
         <a
-          href="https://github.com/jacobolenick/CoffeeOrder/releases/download/v1.0.0/Coffee.Order-1.0.0-arm64.dmg"
+          href="https://github.com/jacobolenick/CoffeeOrder/releases/download/v1.0.1/CoffeeOrder-1.0.1-arm64.dmg"
           download="CoffeeOrder-mac.dmg"
           className="inline-flex items-center gap-2 h-11 px-6 rounded-lg bg-zinc-900 text-white text-sm font-medium hover:bg-zinc-700 transition-colors shadow-sm mb-8"
         >

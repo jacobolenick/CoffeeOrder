@@ -12,6 +12,8 @@ import { Node, mergeAttributes } from '@tiptap/core'
 import { useEffect, useRef, useCallback } from 'react'
 import { Note } from '../../types'
 import { updateNote } from '../../store/notesStore'
+import { callAI } from '../../lib/aiProviders'
+import { getSettings } from '../../store/settingsStore'
 import EditorToolbar from './EditorToolbar'
 import WordCount from './WordCount'
 import ResizableImage from './ResizableImage'
@@ -218,6 +220,30 @@ export default function NoteEditor({ note, onUpdate }: Props) {
     window.addEventListener('editor:insert', handler as EventListener)
     return () => window.removeEventListener('editor:insert', handler as EventListener)
   }, [insertText])
+
+  useEffect(() => {
+    const api = (window as any).api
+    if (!api?.editor?.onFixWithAI) return
+    api.editor.onFixWithAI(async (_selectedText: string) => {
+      if (!editor) return
+      const { from, to } = editor.state.selection
+      if (from === to) return
+      const settings = getSettings()
+      try {
+        const corrected = await callAI(settings.ai, [
+          {
+            role: 'system',
+            content:
+              'Fix the spelling and grammar of the given text. Return only the corrected text with no explanation or extra punctuation.',
+          },
+          { role: 'user', content: _selectedText },
+        ])
+        editor.chain().focus().insertContentAt({ from, to }, corrected.trim()).run()
+      } catch (err) {
+        console.error('AI fix failed:', err)
+      }
+    })
+  }, [editor])
 
   if (!editor) return null
 

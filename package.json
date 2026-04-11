@@ -1,6 +1,6 @@
 {
   "name": "coffee-order",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "AI-powered meeting notes for Mac",
   "main": "./out/main/index.js",
   "author": "jacobolenick",
