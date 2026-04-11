@@ -9,7 +9,8 @@ import {
   dialog,
 } from 'electron'
 import { join } from 'path'
-import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, unlinkSync } from 'fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, unlinkSync, rmSync } from 'fs'
+import { tmpdir } from 'os'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 
 // ─── Config helpers (stored in userData) ────────────────────
@@ -48,6 +49,14 @@ function createWindow(): BrowserWindow {
   })
 
   mainWindow.on('ready-to-show', () => mainWindow.show())
+
+  // Allow media (microphone/camera) permission requests from the renderer
+  mainWindow.webContents.session.setPermissionRequestHandler((_webContents, permission, callback) => {
+    callback(permission === 'media')
+  })
+  mainWindow.webContents.session.setPermissionCheckHandler((_webContents, permission) => {
+    return permission === 'media'
+  })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
@@ -189,6 +198,39 @@ ipcMain.handle('capture:getSources', async () => {
     fetchWindowIcons: false,
   })
   return sources.map((s) => ({ id: s.id, name: s.name }))
+})
+
+// ─── IPC: Export ─────────────────────────────────────────────
+ipcMain.handle('export:saveText', async (_e, filename: string, content: string) => {
+  const result = await dialog.showSaveDialog({
+    title: 'Save Note',
+    defaultPath: filename,
+    filters: [{ name: 'Markdown', extensions: ['md'] }],
+  })
+  if (result.canceled || !result.filePath) return false
+  writeFileSync(result.filePath, content, 'utf-8')
+  return true
+})
+
+ipcMain.handle('export:pdf', async (_e, filename: string, html: string) => {
+  const result = await dialog.showSaveDialog({
+    title: 'Save PDF',
+    defaultPath: filename,
+    filters: [{ name: 'PDF', extensions: ['pdf'] }],
+  })
+  if (result.canceled || !result.filePath) return false
+
+  const tmpFile = join(tmpdir(), `coffee-export-${Date.now()}.html`)
+  writeFileSync(tmpFile, html, 'utf-8')
+
+  const pdfWin = new BrowserWindow({ show: false, webPreferences: { nodeIntegration: false, sandbox: true } })
+  await pdfWin.loadFile(tmpFile)
+  const data = await pdfWin.webContents.printToPDF({ printBackground: true, margins: { marginType: 'default' } })
+  pdfWin.close()
+  try { rmSync(tmpFile) } catch { /* ignore */ }
+
+  writeFileSync(result.filePath, data)
+  return true
 })
 
 // ─── IPC: Image picker ───────────────────────────────────────

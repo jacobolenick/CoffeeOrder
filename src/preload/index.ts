@@ -41,6 +41,11 @@ const api = {
   dialog: {
     openImage: () => ipcRenderer.invoke('dialog:openImage'),
   },
+  // Export
+  export: {
+    saveText: (filename: string, content: string) => ipcRenderer.invoke('export:saveText', filename, content),
+    pdf: (filename: string, html: string) => ipcRenderer.invoke('export:pdf', filename, html),
+  },
 }
 
 if (process.contextIsolated) {
