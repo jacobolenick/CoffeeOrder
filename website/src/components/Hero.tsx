@@ -40,7 +40,7 @@ export default function Hero() {
           </a>
         </div>
         <p className="text-center text-xs text-zinc-400 max-w-md mx-auto mb-6 leading-relaxed">
-          Apple Silicon (M1–M4) · macOS 13+
+          Apple Silicon (M1–M4) &amp; Intel · macOS 13+
         </p>
 
         <div className="mx-auto max-w-md mb-14">
