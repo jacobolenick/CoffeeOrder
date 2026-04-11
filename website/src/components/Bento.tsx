@@ -26,6 +26,7 @@ interface BentoCardProps {
   description: string
   className?: string
   variant?: 'default' | 'muted'
+  horizontal?: boolean
   children?: React.ReactNode
 }
 
@@ -35,9 +36,24 @@ function BentoCard({
   description,
   className = '',
   variant = 'default',
+  horizontal = false,
   children,
 }: BentoCardProps) {
   const shell = variant === 'muted' ? cardMuted : cardBase
+  if (horizontal) {
+    return (
+      <div className={`${shell} ${className} !flex-row gap-6 items-center`}>
+        <div className="flex flex-col flex-shrink-0 max-w-[44%]">
+          <div className="inline-flex w-9 h-9 rounded-xl items-center justify-center mb-4 bg-zinc-100 border border-zinc-200/80 text-zinc-600">
+            {icon}
+          </div>
+          <h3 className="text-sm font-semibold mb-2 tracking-tight text-zinc-900">{title}</h3>
+          <p className="text-sm leading-relaxed text-zinc-500">{description}</p>
+        </div>
+        {children && <div className="flex-1 min-w-0">{children}</div>}
+      </div>
+    )
+  }
   return (
     <div className={`${shell} ${className}`}>
       <div className="inline-flex w-9 h-9 rounded-xl items-center justify-center mb-4 bg-zinc-100 border border-zinc-200/80 text-zinc-600">
@@ -45,7 +61,7 @@ function BentoCard({
       </div>
       <h3 className="text-sm font-semibold mb-2 tracking-tight text-zinc-900">{title}</h3>
       <p className="text-sm leading-relaxed text-zinc-500">{description}</p>
-      {children && <div className="mt-auto pt-5">{children}</div>}
+      {children && <div className="pt-5">{children}</div>}
     </div>
   )
 }
@@ -299,6 +315,7 @@ export default function Bento() {
             description="Captures your microphone and system audio simultaneously — works with Zoom, Meet, Teams, and any other call tool."
             variant="muted"
             className="lg:col-span-2"
+            horizontal
           >
             <RecordingVideo />
           </BentoCard>
@@ -397,7 +414,9 @@ export default function Bento() {
             icon={<Image size={16} strokeWidth={2} />}
             title="Image support"
             description="Insert images from your Mac. Resize them inline with the drag handle or quick-set presets — ¼, ½, ¾, Full."
-          />
+          >
+            <AppScreenshot src="/app-image-support.png" alt="Image inserted in Coffee Order note" />
+          </BentoCard>
 
           {/* Row 6 */}
           <BentoCard
